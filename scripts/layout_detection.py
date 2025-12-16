@@ -29,6 +29,8 @@ def main(config_path):
     # for image detection
     detection_results = model_layout_detection.predict_images(input_data, result_path)
 
+    print(detection_results)
+
     # for pdf detection
     # detection_results = model_layout_detection.predict_pdfs(input_data, result_path)
 

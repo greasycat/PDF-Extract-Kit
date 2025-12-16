@@ -1,34 +1,44 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+# [build-system]
+# requires = ["setuptools>=42", "wheel"]
+# build-backend = "setuptools.build_meta"
 
 [project]
+dependencies = [
+  "PyPDF2",
+  "matplotlib",
+  "pyyaml",
+  "frontend",
+  "pymupdf",
+  "opencv-python>=4.6.0",
+  "omegaconf>=2.3.0",
+  "ultralytics>=8.3.239",
+  "doclayout-yolo>=0.0.4",
+  "unimernet==0.2.1",
+  "paddlepaddle-gpu>=2.6.2",
+  "paddleocr==2.7.3",
+  "struct-eqtable>=0.3.3",
+  "lmdeploy>=0.6.4",
+  "huggingface-hub>=0.36.0",
+  "fastapi[standard]>=0.124.4",
+  "nvidia-cudnn-cu12>=8.9.2.26",
+  "opencv-python-headless>=4.11.0.86",
+  "pyarrow==20.0.0",
+]
 name = "pdf-extract-kit"
 version = "0.1.0"
-authors = [
-    { name="Bin Wang", email="ictwangbin@gmail.com" }
-]
+authors = [{ name = "Bin Wang", email = "ictwangbin@gmail.com" }]
 description = "A Comprehensive Toolkit for High-Quality PDF Content Extraction."
 readme = "README.md"
-license = { file="LICENSE" }
+license-files = ["LICENSE.md"]
 requires-python = ">=3.10"
-dependencies = [
-    "PyPDF2",
-    "matplotlib",
-    "pyyaml",
-    "frontend",
-    "pymupdf",
-    opencv-python = "^4.6.0"
-    # Add other common dependencies
-]
 
 [project.optional-dependencies]
 layout_detection = [
-    "transformers",  # for layoutlmv3
-    # Add other dependencies for layout detection
+  "transformers", # for layoutlmv3
+  # Add other dependencies for layout detection
 ]
 formula_detection = [
-    "ultralytics",  # for yolov8
-    # Add other dependencies for formula detection
+  "ultralytics", # for yolov8
+  # Add other dependencies for formula detection
 ]
 # Add additional dependencies for other models

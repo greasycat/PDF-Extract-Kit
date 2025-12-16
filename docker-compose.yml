@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev  # Use Dockerfile.dev for development (no COPY of api.py/models)
+      # For production, use: dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount api.py for development - changes will be reflected immediately
+      - ./api.py:/app/api.py
+      # Mount models directory for development - allows updating models without rebuild
+      - ./models:/app/models
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    # Enable auto-reload for development (recommended when mounting api.py as volume)
+    # Temporarily disable --reload to see actual startup errors
+    command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug"]
+    # Once working, re-enable reload: command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+

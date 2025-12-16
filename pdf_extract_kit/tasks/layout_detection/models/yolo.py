@@ -1,6 +1,7 @@
 import os
 import cv2
 import torch
+import numpy as np
 from pdf_extract_kit.registry import MODEL_REGISTRY
 from pdf_extract_kit.utils.visualization import visualize_bbox
 from pdf_extract_kit.dataset.dataset import ImageDataset

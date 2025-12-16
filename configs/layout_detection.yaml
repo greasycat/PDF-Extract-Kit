@@ -8,4 +8,5 @@ tasks:
       conf_thres: 0.25
       iou_thres: 0.45
       model_path: models/Layout/YOLO/doclayout_yolo_ft.pt
-      visualize: True
+      visualize: False
+

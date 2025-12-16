@@ -1,0 +1,47 @@
+# Development GPU Dockerfile - assumes api.py and models/ are mounted as volumes
+# Use this with docker-compose.gpu.yml for development
+FROM nvidia/cuda:12.9.1-cudnn-runtime-ubuntu22.04
+
+# Set working directory
+WORKDIR /app
+
+# Install Python 3.11 and system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    build-essential \
+    curl \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create symlink for python and pip
+# RUN ln -s /usr/bin/python3.11 /usr/local/bin/python && \
+#     ln -s /usr/bin/pip3 /usr/local/bin/pip
+
+# Install uv from the official container image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Copy project files needed for installation
+COPY pyproject.toml ./
+COPY pdf_extract_kit/ ./pdf_extract_kit/
+
+# Install dependencies and the package using uv
+RUN uv pip install --system --no-cache .
+
+# Copy only configs (api.py and models/ will be mounted as volumes)
+COPY configs/ ./configs/
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# Expose port 8000 for FastAPI
+EXPOSE 8000
+
+# Run the FastAPI application using uvicorn
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+
